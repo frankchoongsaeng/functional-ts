@@ -1,15 +1,16 @@
-const pipe : any = (initExpression: any, ...args: Array<any>) => {
+export const pipe: any = (initExpression: any, ...args: Array<any>) => {
     let e = initExpression;
 
     for (const arg of args) {
-        
+
         // arg could be a function 
         if (typeof arg === 'function') {
-            arg(e)
+            e = arg(e)
         }
-        
+
         if (Array.isArray(arg)) {
-            arg[0](...arg.slice(1))
+            e = arg[0](...arg.slice(1), e)
         }
     }
+    return e
 }
