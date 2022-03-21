@@ -1,30 +1,37 @@
-import { pipe } from "../src"
+import { pipe } from '../src'
 
-const getTimeOfDay = () => "morning"
+const getTimeOfDay = () => 'morning'
 
 const withGood = (str: string) => `good ${str}`
 
-const greetName :(arg0: string, string) => string = (name: string, greeting: string) => `${greeting}, ${name}`
+const greetName: (arg0: string, string) => string = (
+    name: string,
+    greeting: string
+) => `${greeting}, ${name}`
 
+describe('pipe test', () => {
+    test('can pipe into multiple functions', () => {
+        const greeting = pipe(null, getTimeOfDay, withGood)
 
-test("can pipe into multiple functions", () => {
-    const greeting = pipe(
-        null,
-        getTimeOfDay,
-        withGood
-    )
+        expect(greeting).toBe('good morning')
+    })
 
-    expect(greeting).toBe("good morning")
-})
+    test('can pipe into function with additional args', () => {
+        const greeting = pipe(null, getTimeOfDay, withGood, [
+            greetName,
+            'Micheal',
+        ])
 
+        expect(greeting).toBe('good morning, Micheal')
+    })
 
-test("can pipe into function with additional args", () => {
-    const greeting = pipe(
-        null,
-        getTimeOfDay,
-        withGood,
-        [greetName, "Micheal"]
-    )
+    test('can pipe with starting value', () => {
+        const greeting = pipe('evening', withGood, [greetName, 'frank'])
 
-    expect(greeting).toBe("good morning, Micheal")
+        expect(greeting).toBe('good evening, frank')
+    })
+
+    test("should throw invalid arg type exception", () => {
+        expect(() => pipe(null, "a string here")).toThrowError(/.*[Ii]nvalid arg.*/)
+    })
 })
