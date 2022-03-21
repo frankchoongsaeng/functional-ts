@@ -1,12 +1,12 @@
-import { pipe } from '../src'
+import { compose, pipe } from '../src'
 
 const getTimeOfDay = () => 'morning'
 
 const withGood = (str: string) => `good ${str}`
 
-const greetName: (arg0: string, string) => string = (
-    name: string,
-    greeting: string
+const greetName: (name: string, greeting: string) => string = (
+    name,
+    greeting
 ) => `${greeting}, ${name}`
 
 describe('pipe test', () => {
@@ -31,7 +31,18 @@ describe('pipe test', () => {
         expect(greeting).toBe('good evening, frank')
     })
 
-    test("should throw invalid arg type exception", () => {
-        expect(() => pipe(null, "a string here")).toThrowError(/.*[Ii]nvalid arg.*/)
+    test('should throw invalid arg type exception', () => {
+        expect(() => pipe(null, 'a string here')).toThrowError(
+            /.*[Ii]nvalid arg.*/
+        )
+    })
+})
+
+
+describe("test compose", () => {
+
+    test("should compose getTimeOfDay with withGood", () => {
+        let composedFunction = compose(getTimeOfDay, withGood)
+        expect(composedFunction()).toEqual("good morning")
     })
 })
