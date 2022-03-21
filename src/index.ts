@@ -1,9 +1,8 @@
 export const pipe: any = (initExpression: any, ...args: Array<any>) => {
-    let e = initExpression;
+    let e = initExpression
 
     for (const arg of args) {
-
-        // arg could be a function 
+        // arg could be a function
         if (typeof arg === 'function') {
             e = arg(e)
         }
@@ -12,5 +11,7 @@ export const pipe: any = (initExpression: any, ...args: Array<any>) => {
             e = arg[0](...arg.slice(1), e)
         }
     }
-    return e
 }
+
+export const compose: Function = (fnL: Function, fnR: Function) => (x: any) =>
+    fnR(fnL(x))
