@@ -1,4 +1,4 @@
-import { compose, pipe } from '../src'
+import { compose, pipe } from '..'
 
 const getTimeOfDay : () => string = () => 'morning'
 
@@ -40,7 +40,7 @@ describe('pipe test', () => {
 
 describe('test compose', () => {
     test('should compose getTimeOfDay with withGood', () => {
-        let composedFunction = compose(getTimeOfDay, withGood)
+        const composedFunction = compose(getTimeOfDay, withGood)
         expect(composedFunction()).toEqual('good morning')
     })
 })
