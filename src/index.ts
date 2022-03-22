@@ -1,3 +1,5 @@
+import { Callable, FunctionType } from './types'
+
 /**
  * Pipes the output of one function as an input to the next function.<br />
  * the input to every function is passed in as the last argument.<br />
@@ -5,15 +7,15 @@
  * specifying it in a list where the function is the first item in the list<br /><br />
  *
  * @example
- *      pipe (null, fn1, fn2, fn3) returns the final output of fn3
+ *      pipe (null, fn1, fn2, fn3) //returns the final output of fn3
  *      pipe ("starting value", fn1, [fn2, "fn2 value"])
  * @param {any} initExpression  an initial value to pipe into the first function as a last param
  * @param {Function | Array} args a list of functions that will get called serially with the output of the previous function as a last input
- * @returns {any}
+ * @returns {any} final value of the last invoked function.
  */
-export const pipe: any = (
-    initExpression: any,
-    ...args: Array<Function | Array<any>>
+export const pipe: (i: unknown, ...args: Array<Callable>) => unknown = (
+    initExpression,
+    ...args
 ) => {
     let v = initExpression
 
@@ -30,5 +32,6 @@ export const pipe: any = (
     return v
 }
 
-export const compose: Function = (fnL: Function, fnR: Function) => (x: any) =>
-    fnR(fnL(x))
+export const compose: (fnL: FunctionType, fnR: FunctionType) => FunctionType =
+    (fnL, fnR) => (x: unknown) =>
+        fnR(fnL(x))

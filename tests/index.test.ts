@@ -1,8 +1,8 @@
 import { compose, pipe } from '../src'
 
-const getTimeOfDay = () => 'morning'
+const getTimeOfDay : () => string = () => 'morning'
 
-const withGood = (str: string) => `good ${str}`
+const withGood: (str: string) => string = (str) => `good ${str}`
 
 const greetName: (name: string, greeting: string) => string = (
     name,
@@ -38,11 +38,9 @@ describe('pipe test', () => {
     })
 })
 
-
-describe("test compose", () => {
-
-    test("should compose getTimeOfDay with withGood", () => {
+describe('test compose', () => {
+    test('should compose getTimeOfDay with withGood', () => {
         let composedFunction = compose(getTimeOfDay, withGood)
-        expect(composedFunction()).toEqual("good morning")
+        expect(composedFunction()).toEqual('good morning')
     })
 })
